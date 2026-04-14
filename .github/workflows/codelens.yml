@@ -1,0 +1,37 @@
+name: CodeLens Self-Review
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install
+        run: pip install -e .
+
+      - name: Run CodeLens
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          echo "${{ github.event.pull_request.body }}" > /tmp/pr_body.md
+          codelens \
+            --base origin/${{ github.base_ref }} \
+            --head HEAD \
+            --pr-body /tmp/pr_body.md \
+            --output /tmp/review.md
+
+      - name: Post comment
+        if: always()
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          path: /tmp/review.md

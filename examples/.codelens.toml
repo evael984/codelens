@@ -1,0 +1,12 @@
+[provider]
+name = "anthropic"
+model = "claude-opus-4-6"
+
+[analyzers]
+intent_drift = true
+side_effects = true
+test_gap = true
+
+[filters]
+ignore_paths = ["vendor/**", "*.generated.*", "**/migrations/**"]
+max_diff_lines = 2000

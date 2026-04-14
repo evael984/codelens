@@ -1,0 +1,5 @@
+{
+  "intent_drift": "{\"claimed_not_done\": [], \"done_not_claimed\": [], \"verdict\": \"aligned\"}",
+  "side_effects": "{\"side_effects\": []}",
+  "test_gap": "{\"gaps\": []}"
+}
